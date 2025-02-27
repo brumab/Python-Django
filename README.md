@@ -24,6 +24,7 @@ A blog application developed with Django contains all the essential features of 
 ![3](VISUALIZAR/IMG3.png)
 ![4](VISUALIZAR/IMG4.png)
 ![5](VISUALIZAR/IMG5.png)
+![6](VISUALIZAR/IMG6.png)
 <br>
 
 ## Características / Features 
