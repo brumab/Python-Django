@@ -2,28 +2,31 @@ import os
 from pathlib import Path
 import dj_database_url
 
+# Diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Configuração de Templates, Arquivos Estáticos e Mídia
+# Diretórios para templates, estáticos e mídia
 TEMP_DIR = os.path.join(BASE_DIR, "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
-# 🔑 Configuração da Chave Secreta
+# 🔑 Chave Secreta (deve ser definida no ambiente)
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "valor-padrão-inseguro")
 
-# 🛑 Segurança - Debug e Hosts Permitidos
+# 🛑 Configuração de Debug e Hosts Permitidos
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",") + ["meu-app.onrender.com"]
 
 # 🗄️ Configuração do Banco de Dados
+DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
-    "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}") if not DATABASE_URL else
+    dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
 }
 
 # 📂 Configuração de Arquivos Estáticos e Mídia
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Render precisa disso
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Necessário para Render
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
